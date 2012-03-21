@@ -13,21 +13,11 @@ class DISP {
             switch ($exec) {
                 case 'info':
                     $db = new DBI;
-                    /**
-                     * schauderhaftes Return (screen only)!!!
-                     * @todo korrektes Objekt erzeugen
-                     */
                     return $db->countRecords() . '<br/>' . $db->listTables() . '<br/>';
                     break;
-                /**
-                 * aus GET: PLZ Polygone suchen.
-                 * _keine_ Suche im Bestand!
-                 */
                 case 'plzpolygons':
                     require_once (INCLUDEDIR . 'FINDER.inc.php');
                     $f = new FINDER;
-                    //$f->setparams($this->params);
-                    //print_r($this->params);
                     return $f->plz2polygons(json_decode($_GET['pastedata']));
                     break;
                 case 'polygon':
