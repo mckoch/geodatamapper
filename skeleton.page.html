@@ -1,0 +1,192 @@
+<body>
+       
+        <div id="page"style="width: 920px; padding: 1em; margin:0;" class="ui-corner-all ui-widget-content">
+
+            <form id="geocoder" class="ui-widget-header ui-corner-all" style="float: right;padding:5px;">
+                <input type="hidden" id="lastlatitude" name="lastlatitude" value="<?php print $lat_default; ?>"/>
+                <input type="hidden" id="lastlongitude" name="lastlongitude" value="<?php print $lng_default; ?>"/>
+
+                <input id="freiesuche" type="text" class="ui-state-default clearfield" style="width: 180px;"
+                       value="Bestandssuche"  class="vtip" title="Suche im SDAW Bestand nach Standort, PLZ, Anbieter-ID, Nielsen, Schlagworten in Standortbeschreibung"/>
+                <input type="text" id="address" value="Umkreissuche" class="ui-state-default clearfield"
+                       style="width: 180px;"  class="vtip" title="Suche in Geodatenbank nach Orten, PLZ, Regionen"/>
+
+                <span id="zoom" class="ui-state-default"style="width:60px; float: right;"></span>
+                <input id="umkreis_store" type="hidden" value="<?php print $umkreis_default; ?>" name="umkreis"/>
+            </form>
+
+            <div id="map" style="width: 580px; height:460px;float: left; margin: 0px; background: url(headerbox.png) no-repeat left center"  class="ui-widget">
+            </div>
+
+            <span id="umkreis" class="ui-widget"style="width:8px; height: 280px;float: right;"></span>
+
+
+
+            <div id="tabs" style="float: right; width: 300px;" class="ui-widget">
+
+
+                <ul id="tablist">
+                    <li><a href="#geo"><span id="geo_icon" class="ui-icon fff-icon-zoom" style="float:left"></span></a></li>
+                    <li><a href="#historyouter"><span class="ui-icon fff-icon-arrow-refresh" style="float:left"></span></a></li>
+                    <li><a href="#merkzettelouter"><span id="merkzettelouter_icon" class="ui-icon fff-icon-folder" style="float:left"></span></a></li>
+                    <li><a href="#kalenderplanung"><span class="ui-icon fff-icon-time-add" style="float:left"></span></a></li>
+                    <li><a href="#routenplanung"><span class="ui-icon fff-icon-flag-blue" style="float:left"></span></a></li>
+                    <li><a href="#appinfo"><span class="ui-icon fff-icon-information" style="float:left"></span></a></li>
+                </ul>
+
+                <div id="geo">
+
+
+                    <div id="map-side-bar-container">
+
+                        <span id="paginierung_hauptauswahl" class="ui-widget"style="width:8px; height: 180px; float: left;"></span>
+
+                        <div id="map-side-bar-scrolller"  style="max-height:300px; overflow:auto;" class="scroll-pane">
+                            <div id="map-side-bar">
+                                <?php require_once('api.php'); ?>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <span id="pagination" class="ui-widget-content" style="float:right;clear:left;"></span>
+                    <span id="counter" class="ui-state-default"style="width:60px; float: right;"></span>
+                    <div id="auswahlinfo" style="float:right; padding:5px">
+                        <div id="aktuellerstandort" style=""></div>
+                        <div id="stellenkurzinfo" style=""></div>
+                    </div>
+
+                </div>
+                <div id="historyouter">
+                    <div id="history" class="ui-widget-content" style="float: none; clear: both;"></div>
+                    <span id="resetmap"><span  class="ui-icon fff-icon-cross" style="float:right">Reset</span></span>
+                    <span id="pagination_history_button" class="ui-widget-content" style="float:right;clear:both;"></span>
+                </div>
+
+                <div id="merkzettelouter">
+                    <span id="paginierung_merkzettel" class="ui-widget"style="width:8px; height: 280px; float: right;"></span>
+                    <div id="merkzettelstandorte" class="ui-widget-content" ></div>
+                    <span id="lademerkzettel"><span class="ui-icon fff-icon-zoom" style="float:left"></span></span>
+                    <span id="pagination_merkzettel_button" class="ui-widget-content" style="float:right;clear:both;"></span>
+                </div>
+                <div id="kalenderplanung"><div class="ui-icon ui-icon-calendar" style="float:left"></div>
+                    Auswahl nach Datum, Perioden, ... 
+                </div>
+                <div id="routenplanung" class="ui-widget-content" >
+                    <form>
+                        <input type="text" id="startadresse" class="ui-state-default clearfield" style="width: 180px;" value="Startadresse"/>
+                        <span id="zwischenstopliste" class="ui-widget-content"></span>
+                        <input type="text" id="zieladresse" class="ui-state-default clearfield" style="width: 180px;" value="Zieladresse"/>
+                        <input type="hidden" id="startlongitude"/><input type="hidden" id="ziellongitude"/>
+                        <input type="hidden" id="startlatitude"/><input type="hidden" id="ziellatitude"/>
+
+                    </form>
+
+                    <div id="map_canvas_outer" class="ui-widget" style="padding:12px;">
+                        <div class="ui-widget-content">
+                            <div id="map_canvas" style="width: 240px; height: 180px;"></div>
+                        </div>
+                        <div id="directions_panel" style="margin:20px;background-color:#FFEE77;"></div>
+                        <input type="text" id="zwischenstop" class="clearfield" style="width: 180px;" value="Zwischenstop hinzuf&uuml;gen"/>
+
+
+                    </div>
+                    <div id="reset_route"  class="ui-state-default" style="float:right">
+                        <div class="ui-icon fff-icon-cross"></div>
+                    </div>
+                    <div id="suche_route"  class="ui-state-default" style="float:right">
+                        <div class="ui-icon fff-icon-flag-blue"></div>
+                    </div>
+
+                </div>
+                <div id="appinfo">
+                    <div classs="ui-widget-content"> 
+
+                        <div class="ui-state-active"  style="padding: 12px;">
+                            <h3>GeoDataMapper</h3>
+                            Version 0.2 <br/>
+                            <?php print date(DATE_RFC1123); ?> <br/>
+                        </div>
+                        <div>
+                            <button id="modus_maxmap">Darstellung umschalten (maximierte Karte)</button>
+                        </div>
+                        <div>
+                            Modus Suchergebnisse anf&uuml;gen f&uuml;r Bestandssuche an/aus
+                        </div>
+                        <div>
+                            Modus Suchergebnisse anf&uuml;gen f&uuml;r Umkreissuche an/aus
+                        </div>
+                        <div>
+                            Colorierung der Suchergebnisse an/aus
+                        </div>
+                        <div>
+                            Fortbewegungsart f&uuml;r Routensuche: Laufen, Bundesstrasse, Autobahn, Fahrrad
+                            <div id="fortbewegungsart">
+                                <input type="radio"  class="ui-state-default" id="WALKING" name="radio"/><label for="WALKING">L</label>
+                                <input type="radio" id="DRIVING" name="radio" checked="checked"/><label for="DRIVING">B</label>
+                                <input type="radio" id="HIGHWAY" name="radio"/><label for="HIGHWAY">A</label>
+                                <input type="radio" id="BICYCLING" name="radio"/><label for="BICYCLING">F</label>
+                            </div>
+                        </div>
+                        <div>
+                            Paginierungsl&auml;nge des Suchergebnisse Tab
+                        </div>
+                        <div>
+                            Paginierungsl&auml;nge des Merkzettel Tab
+                        </div>
+                        <div>
+                            Paginierungsl&auml;nge des Verlauf Tab
+                        </div>
+                        <div>
+                            Nielsen-Automatik in Bestandssuche an/aus
+                        </div>
+                        <div>
+                            Abmessungen der Hauptkarte
+                        </div>
+                        <div>
+                            Breite des Suchwidgets
+                        </div>
+                        <div>
+                            MapType Auswahl in Hauptkarte an/aus
+                        </div>
+                        <div>
+                            Themenauswahl an/aus
+                        </div>
+                        <div>
+                            Anzeige Merkliste an/aus
+                        </div>
+
+                        <div>
+                            In Vollbildschirm-Modus wechseln
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="merkliste_outer" style="width:100%; clear:both; margin-top: 12px; width:100%;" class="ui-widget">
+                <div id="merkliste" style="padding: 12px;" class="ui-widget-content"></div>
+            </div>
+        </div>
+        <div id="zwischenspeicher_container" class="ui-helper-hidden-accessible">
+            <div id="zwischenspeicher"></div>
+        </div>
+        <div class="contextMenu" id="mainmap_context_menu">
+
+            <ul style="z-index:20000">
+
+                <li id="item_1">Umkreissuche hier</li>
+
+                <li id="item_2">erweiterte Fotos</li>
+
+                <li id="item_3">erweiterte Strassenkarte</li>
+
+            </ul>
+
+        </div>
+
+
+
+    </body>
