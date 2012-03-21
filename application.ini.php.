@@ -1,0 +1,26 @@
+<?php
+
+define('INCLUDEDIR', './include/');
+define('DEFSDIR', './definitionfiles/');
+define('SDAWDIR', './sdawfiles/');
+define('ARCHIVEDIR', './archiv/');
+define('OUTPUTDIR', './srv/www/vhosts/cm.inextsolutions.net/httpdocs/sdaw/.outfiles/');
+define('ORIGINAL_IMAGEPATH', './testimages/');
+
+$GLOBALS['dbhost'] = 'dbhost';
+$GLOBALS['dbuname'] = 'dbuser';
+$GLOBALS['dbpass'] = 'dbpassword';
+$GLOBALS['dbname'] = 'dbname';
+
+require_once (INCLUDEDIR . 'ADODB/adodb.inc.php');
+require_once (INCLUDEDIR . 'DBI.inc.php');
+require_once(INCLUDEDIR . 'DISP.inc.php');
+require_once(INCLUDEDIR . 'generalHelper.inc.php');
+require_once(INCLUDEDIR . 'INIT.inc.php');
+require_once(INCLUDEDIR . 'VERSION.inc.php');
+require_once (INCLUDEDIR . 'exceptionErrorGeneric.inc.php');
+$oErr = new exceptionErrorHandler(false);
+
+$GLOBALS['StellenArtenFile'] = DEFSDIR . 'Stellenarten.xml';
+$GLOBALS['StellenFileDefault'] = DEFSDIR . 'StellenDefault.xml';
+$GLOBALS['STAKopfDatenFile'] = DEFSDIR . 'Kopfsatz.xml';
